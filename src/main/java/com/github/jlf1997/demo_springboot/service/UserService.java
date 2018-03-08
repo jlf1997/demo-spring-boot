@@ -8,13 +8,17 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Service;
 
 import com.github.jlf1997.demo_springboot.jpa.UserJpa;
 import com.github.jlf1997.demo_springboot.model.User;
+import com.github.jlf1997.spring_boot_sdk.oper.SpringDateJpaOper;
 import com.github.jlf1997.spring_boot_sdk.service.FindBase;
+import com.github.jlf1997.spring_boot_sdk.service.SpringDataJpaFinder;
 
 @Service("userService")
 public class UserService extends FindBase<User, Long>{
@@ -42,13 +46,30 @@ public class UserService extends FindBase<User, Long>{
 	}
 
 	@Override
-	public void where(User user, List<Predicate> predicates, Root<User> root, CriteriaQuery<?> arg3, CriteriaBuilder cb) {
+	public void addWhere(User t, List<Predicate> predicates, Root<User> root, CriteriaQuery<?> query,
+			CriteriaBuilder cb) {
 		// TODO Auto-generated method stub
-		if(user!=null) {
-			if(user.id!=null) {
-				predicates.add(cb.equal(root.get("id"),  user.id));
-			}
-		}
+		
 	}
+	
+	public List<User> findAgeLe(User u) {
+		
+		return super.findAll(u,new SpringDataJpaFinder<User>() {
+			
+			@Override
+			public void where(User user,List<Predicate>  predicates,Root<User> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+				// TODO Auto-generated method stub
+				
+				if(user!=null) {
+					SpringDateJpaOper<User> springDateJpaOper = new SpringDateJpaOper<>(root,query,cb);
+					if(user.getAge()!=null) {
+						springDateJpaOper.ge(predicates,"age", user.getAge());
+					}
+				}
+			}
+		}, null, null);
+	}
+
+
 
 }
