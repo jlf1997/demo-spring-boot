@@ -36,12 +36,14 @@ public class TestController {
 			)	  
 	@RequestMapping(value="findUser",method=RequestMethod.GET)	
 	public List<UserAndShopVo> findAll(@ApiParam(name = "id",value="用户id") @RequestParam(required=false) Long id) {
-		User u = new User();
-		u.setId(id);
+		User u1 = new User();
+		u1.setId(id);
 //		u.setName("t");
-		u.setAge(2);
+		u1.setAge(2);
 		
-		List<User> list = userService.findAgeLe(u);
+		User u2 = new User();
+		u2.setAge(9);
+		List<User> list = userService.findAll(u1,u2);
 
 		UserVoTranslation e = new UserVoTranslation();
 		List<UserAndShopVo> rr = null;
@@ -70,5 +72,11 @@ public class TestController {
 		User t = new User();
 		t.setId(userid);
 		userService.delete(t);
+	}
+	
+	@ApiOperation(value = "新增用户", notes = "")
+	@RequestMapping(value="toSql",method=RequestMethod.GET)
+	public void toSql() {
+		
 	}
 }

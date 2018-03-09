@@ -30,7 +30,7 @@ public class User extends BaseModel{
 	private String name;
 	 
 	@ApiModelProperty(value = "年龄", example = "20")
-	@DBFinder(opType=Oper.GT)
+	@DBFinder(opType=Oper.BETWEEN)
 	private Integer age;
 	 
 	@ApiModelProperty(value = "日期", example = "2013-04-15 12:24:14")

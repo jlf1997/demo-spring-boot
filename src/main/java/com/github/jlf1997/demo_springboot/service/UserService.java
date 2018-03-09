@@ -7,6 +7,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -45,29 +46,32 @@ public class UserService extends FindBase<User, Long>{
 		return userJpa;
 	}
 
-	@Override
-	public void addWhere(User t, List<Predicate> predicates, Root<User> root, CriteriaQuery<?> query,
-			CriteriaBuilder cb) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 	
 	public List<User> findAgeLe(User u) {
 		
-		return super.findAll(u,new SpringDataJpaFinder<User>() {
+		return super.findAll(new SpringDataJpaFinder<User>() {
 			
 			@Override
-			public void where(User user,List<Predicate>  predicates,Root<User> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+			public void where(List<Predicate>  predicates,Root<User> root, CriteriaQuery<?> query, CriteriaBuilder cb,User...user) {
 				// TODO Auto-generated method stub
 				
-				if(user!=null) {
+				if(user!=null  && user.length>0) {
 					SpringDateJpaOper<User> springDateJpaOper = new SpringDateJpaOper<>(root,query,cb);
-					if(user.getAge()!=null) {
-						springDateJpaOper.ge(predicates,"age", user.getAge());
+					if(user[0].getAge()!=null) {
+						springDateJpaOper.ge(predicates,"age", user[0].getAge());
+					
 					}
 				}
 			}
-		}, null, null);
+		},u);
+	}
+
+	@Override
+	public void addWhere(User[] t, List<Predicate> predicates, Root<User> root, CriteriaQuery<?> query,
+			CriteriaBuilder cb) {
+		// TODO Auto-generated method stub
+		
 	}
 
 
