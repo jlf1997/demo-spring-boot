@@ -2,6 +2,8 @@ package com.github.jlf1997.demo_springboot.controller;
 
 import java.beans.PropertyDescriptor;
 import java.util.List;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,9 +64,13 @@ public class TestController {
 		User user = new User();
 //		user.age =10;
 //		user.name = "name";
-		user.setAge(10);
-		user.setName("tname");
-		userService.save(user);
+		Random random1 = ThreadLocalRandom.current();
+		int age = random1.nextInt(10);
+		System.out.println(age);
+		user.setAge(age);
+		
+		user.setName("tname"+random1.nextInt(1000));
+		User users = userService.save(user);
 	}
 	
 	@RequestMapping(value="delete/{userid}",method=RequestMethod.DELETE)

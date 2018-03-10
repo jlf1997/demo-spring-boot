@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import com.github.jlf1997.spring_boot_sdk.model.BaseModel;
 import com.github.jlf1997.spring_boot_sdk.oper.DBFinder;
@@ -16,7 +17,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 @Entity
-@Table
+@Table(uniqueConstraints= {@UniqueConstraint(columnNames= {"name","delTime"})})
 @ApiModel(value="User",description="用户信息")
 public class User extends BaseModel{
 
