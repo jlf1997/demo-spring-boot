@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -20,6 +21,7 @@ import com.github.jlf1997.demo_springboot.model.User;
 import com.github.jlf1997.spring_boot_sdk.oper.SpringDateJpaOper;
 import com.github.jlf1997.spring_boot_sdk.service.FindBase;
 import com.github.jlf1997.spring_boot_sdk.service.SpringDataJpaFinder;
+import com.github.jlf1997.spring_boot_sdk.util.SpringDataJpaUtils;
 
 @Service("userService")
 public class UserService extends FindBase<User, Long>{
@@ -54,7 +56,7 @@ public class UserService extends FindBase<User, Long>{
 			
 			@Override
 			public void where(List<Predicate>  predicates,Root<User> root, CriteriaQuery<?> query, CriteriaBuilder cb,User...user) {
-				// TODO Auto-generated method stub
+
 				
 				if(user!=null  && user.length>0) {
 					SpringDateJpaOper<User> springDateJpaOper = new SpringDateJpaOper<>(root,query,cb);
@@ -63,6 +65,12 @@ public class UserService extends FindBase<User, Long>{
 					
 					}
 				}
+				//覆盖age查询
+				user[0].setAge(null);
+				SpringDataJpaUtils.where(predicates, root, query, cb, user);
+
+				
+				
 			}
 		},u);
 	}

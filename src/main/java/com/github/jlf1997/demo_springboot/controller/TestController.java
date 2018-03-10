@@ -42,11 +42,11 @@ public class TestController {
 		u1.setId(id);
 //		u.setName("t");
 		u1.setAge(2);
-		
+		u1.setName("t");
 		User u2 = new User();
 		u2.setAge(9);
-		List<User> list = userService.findAll(u1,u2);
-
+		List<User> list = userService.findAgeLe(u1);
+//		List<User> list = userService.findAll(u1,u2);
 		UserVoTranslation e = new UserVoTranslation();
 		List<UserAndShopVo> rr = null;
 		try {
