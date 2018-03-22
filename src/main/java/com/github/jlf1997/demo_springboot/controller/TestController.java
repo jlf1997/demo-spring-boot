@@ -1,11 +1,9 @@
 package com.github.jlf1997.demo_springboot.controller;
 
-import java.beans.PropertyDescriptor;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,8 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.jlf1997.demo_springboot.model.User;
 import com.github.jlf1997.demo_springboot.service.UserService;
 import com.github.jlf1997.demo_springboot.vo.UserAndShopVo;
-import com.github.jlf1997.demo_springboot.vo.UserAndShopVo.UserVoTranslation;
-import com.github.jlf1997.spring_boot_sdk.oper.DBFinder;
+import com.github.jlf1997.spring_boot_sdk.vo_translation.ModeAndViewTranslation;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -47,13 +44,11 @@ public class TestController {
 		u2.setAge(9);
 		List<User> list = userService.findAgeLe(u1);
 //		List<User> list = userService.findAll(u1,u2);
-		UserVoTranslation e = new UserVoTranslation();
+		ModeAndViewTranslation<User,UserAndShopVo> e = new ModeAndViewTranslation<>();
 		List<UserAndShopVo> rr = null;
-		try {
+		
 			rr = e.modelListToViewList(list,UserAndShopVo.class);
-		} catch (InstantiationException | IllegalAccessException e1) {		
-			e1.printStackTrace();
-		}	
+			
 		
 		return rr;
 	}

@@ -55,7 +55,7 @@ public class UserService extends FindBase<User, Long>{
 		return super.findAll(new SpringDataJpaFinder<User>() {
 			
 			@Override
-			public void where(List<Predicate>  predicates,Root<User> root, CriteriaQuery<?> query, CriteriaBuilder cb,User...user) {
+			public boolean where(List<Predicate>  predicates,Root<User> root, CriteriaQuery<?> query, CriteriaBuilder cb,User...user) {
 
 				
 				if(user!=null  && user.length>0) {
@@ -69,7 +69,7 @@ public class UserService extends FindBase<User, Long>{
 				user[0].setAge(null);
 				SpringDataJpaUtils.where(predicates, root, query, cb, user);
 
-				
+				return false;
 				
 			}
 		},u);
